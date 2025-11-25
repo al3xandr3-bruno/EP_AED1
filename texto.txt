@@ -1,0 +1,5 @@
+palavra00, palavra01, palavra02,
+palavra10 , palavra11 , palavra12
+palavra20 ,palavra21 ,palavra22
+palavra30, , ,palavra31, , ,palavra32
+,palavra40, ,palavra41, ,palavra42,

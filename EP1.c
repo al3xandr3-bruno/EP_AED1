@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
-int teste (){
+int main (){
     FILE *texto;
     char c;
 
@@ -25,14 +26,15 @@ int teste (){
         como faz com números? funciona!
         */
         c = fgetc(texto);
-        if(c == ' ' || c == '\n' || c == '-' || c == ',' || 
+        if(c == ' ' || c == '-' || c == ',' || 
             c == '.'|| c == ';' || 
-            c == ':' || c == ':') printf("\n");
+            c == ':' || c == ':') continue;
         
-        else printf("%c", c);
+        printf("%c", c);
     }while (c != EOF);
 
-    printf("______________________________\n");
+
+    printf("\n______________________________\n");
 
     printf("Olá Mundo!\n");
     int a = 0;
@@ -40,10 +42,20 @@ int teste (){
     return 0;    
 }
 
-int main(){
+int teste(){
     
-    char ch [20] = "babb";
-    char ch1 [20]  = "bab";
+    char ch [20] = "b";
+    char ch1 [20]  = "B";
+
+    for (int i = 0; i < 20; i++)
+    {
+        ch[i] = toupper(ch[i]);
+    }
+
+    for (int i = 0; i < 20; i++)
+    {
+        ch1[i] = tolower(ch1[i]);
+    }
 
     if (strcmp(ch, ch1)>0) printf("ch é maior que ch1");
     else if (strcmp(ch, ch1)<0)printf("ch1 é maior que ch");

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "lista_seq_ord.h"
 
 #define TAMANHO 10000
 char *strsep(char **stringp, const char *delim) {
@@ -17,12 +18,15 @@ char *strsep(char **stringp, const char *delim) {
 
 int main(int argc, char ** argv){
 
+    ListaSequencial * lista = cria_lista(TAMANHO);
+
 	FILE * in;
 	char * linha;
 	char * copia_ponteiro_linha;
 	char * quebra_de_linha;
+    /////
 	char * palavra;	
-	int contador_linha;
+	int contador_linha, contador_palavras;
 
 	if(argc == 2) {
 
@@ -30,7 +34,7 @@ int main(int argc, char ** argv){
 
 		printf(">>>>> Carregando arquivo...\n");
 
-		contador_linha = 0;
+		contador_linha = contador_palavras = 0;
  		linha = (char *) malloc((TAMANHO + 1) * sizeof(char));
 
 		while(in && fgets(linha, TAMANHO, in)){
@@ -46,21 +50,38 @@ int main(int argc, char ** argv){
 
 			copia_ponteiro_linha = linha;
 
-			while( (palavra = strsep(&copia_ponteiro_linha, " ")) ){
+                for(int i = 0; copia_ponteiro_linha[i]; i++){
+                    copia_ponteiro_linha[i] = tolower(copia_ponteiro_linha[i]);
+                }
 
-				// antes de guardar a palavra em algum tipo de estrutura usada
-				// para implementar o índice, será necessário fazer uma copia
-				// da mesma, uma vez que o ponteiro 'palavra' aponta para uma 
-				// substring dentro da string 'linha', e a cada nova linha lida
-				// o conteúdo da linha anterior é sobreescrito.
 
-				printf("\t\t'%s'\n", palavra);
+			while( (palavra = strsep(&copia_ponteiro_linha, " .,;/-")) ){
+                    // antes de guardar a palavra em algum tipo de estrutura usada
+                    // para implementar o índice, será necessário fazer uma copia
+                    // da mesma, uma vez que o ponteiro 'palavra' aponta para uma 
+                    // substring dentro da string 'linha', e a cada nova linha lida
+                    // o conteúdo da linha anterior é sobreescrito.
+                if(*palavra != '\0'){
+                    printf("\t\t'%s'\n", palavra);
+                    contador_palavras++;
+
+                    char * copia_palavra =  (char *) malloc(sizeof(char *));
+                    
+                    strcpy(copia_palavra, palavra);
+                    insere(lista, copia_palavra);
+                    
+                }
+
+                
 			}
+
 
 			contador_linha++;
 		}
 
 		printf(">>>>> Arquivo carregado!\n");
+        printf("%d palavras\n", contador_palavras);
+        imprime(lista);
 
 		return 0;
 	}
@@ -108,12 +129,12 @@ int tist (){
     return 0;    
 }
 
-int teste(){
+int comparestring(){
     
     char ch [20] = "b";
-    char ch1 [20]  = "B";
+    char ch1 [20]  = "b";
 
-    for (int i = 0; i < 20; i++)
+    /*for (int i = 0; i < 20; i++)
     {
         ch[i] = toupper(ch[i]);
     }
@@ -121,11 +142,11 @@ int teste(){
     for (int i = 0; i < 20; i++)
     {
         ch1[i] = tolower(ch1[i]);
-    }
+    }*/
 
     if (strcmp(ch, ch1)>0) printf("ch é maior que ch1");
     else if (strcmp(ch, ch1)<0)printf("ch1 é maior que ch");
-    else printf("Foi porra nenhuma nessa joça kkkkk");
+    else if(strcmp(ch, ch1)==0) printf("Foi porra nenhuma nessa joça kkkkk");
 
     printf("\n");
 }

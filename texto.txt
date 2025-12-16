@@ -1,5 +1,13 @@
-palavra00, palavra01, palavra02,
-palavra10 , palavra11 , palavra12
-palavra20 ,palavra21 ,palavra22
-palavra30, , ,palavra31, , ,palavra32
-,palavra40, ,palavra41, ,palavra42,
+Informally, an algorithm is any well-defined computational procedure that takes
+some value, or set of values, as input and produces some value, or set of values, 
+as output. An algorithm is thus a sequence of computational steps that transform
+the input into the output.
+
+We can also view an algorithm as a tool for solving a well-specified computational
+problem. The statement of the problem specifies in general terms the desired
+input/output relationship. The algorithm describes a specific computational 
+procedure for achieving that input/output relationship.
+
+For example, we might need to sort a sequence of numbers into nondecreasing order. 
+This problem arises frequently in practice and provides fertile ground for introducing 
+many standard design techniques and analysis tools.

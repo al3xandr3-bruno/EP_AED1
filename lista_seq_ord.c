@@ -97,4 +97,3 @@ Boolean remove_elemento(ListaSequencial * lista, palavra e){
 
 	return FALSE;
 }
-

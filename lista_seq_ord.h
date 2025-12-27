@@ -19,4 +19,3 @@ void imprime(ListaSequencial * lista);
 int busca(ListaSequencial * lista, char * e);
 Boolean insere(ListaSequencial * lista, char * e);
 Boolean remove_elemento(ListaSequencial * lista, char * e);
-

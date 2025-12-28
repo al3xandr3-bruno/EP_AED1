@@ -2,11 +2,18 @@
 #define TRUE 1
 
 typedef int Boolean;
-typedef char * palavra;
+//typedef char * palavra;
+
+typedef struct {
+	char *a;
+	int *n_ocorrencias;
+	int *linhas_ocoreencias;
+} PalavraTexto;
 
 typedef struct {
 
-	char **a;
+	//char **a;
+	PalavraTexto *palavras;
 	int livre;
 	int capacidade;
 

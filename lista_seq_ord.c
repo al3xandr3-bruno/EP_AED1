@@ -7,7 +7,8 @@
 ListaSequencial * cria_lista(int capacidade){
 
 	ListaSequencial * lista =  (ListaSequencial *) malloc (sizeof(ListaSequencial));
-	lista->a = (char **) malloc (capacidade * sizeof(char *));
+	//lista->a = (char **) malloc (capacidade * sizeof(char *));
+	lista->palavras = (PalavraTexto *) malloc(capacidade * sizeof(PalavraTexto*));
 	lista->capacidade = capacidade;
 	lista->livre = 0;
 
@@ -16,7 +17,7 @@ ListaSequencial * cria_lista(int capacidade){
 
 void destroi_lista(ListaSequencial * lista){
 
-	free(lista->a);
+	free(lista->palavras);
 	free(lista);
 }
 
@@ -33,13 +34,15 @@ void imprime(ListaSequencial * lista){
 
 	for(i = 0; i < lista->livre; i++){
 
-		printf("[%d]: %s\n", i, lista->a[i]);
+		printf("[%d]: %s\n", i, lista->palavras[i].a);
+		printf("[%d]: %s\n", i, lista->palavras[i].linhas_ocoreencias);
+		printf("[%d]: %s\n", i, lista->palavras[i].n_ocorrencias);
 	}
 
 	printf("\n");
 }
 
-int busca(ListaSequencial * lista, palavra e){
+int busca(ListaSequencial * lista, char *e){
 
 	// busca binária! ;)
 
@@ -51,9 +54,9 @@ int busca(ListaSequencial * lista, palavra e){
 
 		meio = (ini + fim) / 2;
 
-		if(strcmp(e, lista->a[meio])==0) return meio;
-		if(strcmp(e, lista->a[meio])<0) fim = meio - 1;
-		if(strcmp(e, lista->a[meio])>0) ini = meio + 1;
+		if(strcmp(e, lista->palavras[meio].a)==0) return meio;
+		if(strcmp(e, lista->palavras[meio].a)<0) fim = meio - 1;
+		if(strcmp(e, lista->palavras[meio].a)>0) ini = meio + 1;
 	}
 		
 	return -1;
@@ -65,11 +68,11 @@ Boolean insere(ListaSequencial * lista, char * e){
 
 	if(lista->livre < lista->capacidade) {
 
-		for(i = lista->livre; i > 0 && strcmp(lista->a[i - 1], e)>0 ; i--){
-			lista->a[i] = lista->a[i - 1];
+		for(i = lista->livre; i > 0 && strcmp(lista->palavras[i - 1].a, e)>0 ; i--){
+			lista->palavras[i] = lista->palavras[i - 1];
 		}
 
-		lista->a[i] = e;
+		lista->palavras[i].a = e;
 		lista->livre++;
 
 		return TRUE;
@@ -78,7 +81,7 @@ Boolean insere(ListaSequencial * lista, char * e){
 	return FALSE;
 }
 
-Boolean remove_elemento(ListaSequencial * lista, palavra e){
+Boolean remove_elemento(ListaSequencial * lista, char * e){
 
 	int i;
 	int indice = busca(lista, e);
@@ -89,7 +92,7 @@ Boolean remove_elemento(ListaSequencial * lista, palavra e){
 
 		for(i = indice; i < lista->livre; i++){
 
-			lista->a[i] = lista->a[i + 1];
+			lista->palavras[i].a = lista->palavras[i + 1].a;
 		}
 
 		return TRUE;

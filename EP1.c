@@ -18,7 +18,7 @@ char *strsep(char **stringp, const char *delim) {
 
 int main(int argc, char ** argv){
 
-    ListaSequencial * lista = cria_lista(TAMANHO);
+    ListaSequencial * lista_palavras = cria_lista(TAMANHO);
 
 	FILE * in;
 	char * linha;
@@ -68,7 +68,7 @@ int main(int argc, char ** argv){
                     char * copia_palavra =  (char *) malloc(sizeof(char *));
                     
                     strcpy(copia_palavra, palavra);
-                    insere(lista, copia_palavra);
+                    insere(lista_palavras, copia_palavra, contador_linha);
                     
                 }
 
@@ -81,7 +81,7 @@ int main(int argc, char ** argv){
 
 		printf(">>>>> Arquivo carregado!\n");
         printf("%d palavras\n", contador_palavras);
-        imprime(lista);
+        imprime(lista_palavras);
 
 		return 0;
 	}

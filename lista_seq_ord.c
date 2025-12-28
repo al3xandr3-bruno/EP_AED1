@@ -34,9 +34,9 @@ void imprime(ListaSequencial * lista){
 
 	for(i = 0; i < lista->livre; i++){
 
-		printf("[%d]: %s\n", i, lista->palavras[i].a);
-		printf("[%d]: %s\n", i, lista->palavras[i].linhas_ocoreencias);
-		printf("[%d]: %s\n", i, lista->palavras[i].n_ocorrencias);
+		printf("[%d]: %s ", i, lista->palavras[i].a);
+		//printf("[%d]: %s\n", i, lista->palavras[i].linhas_ocoreencias);
+		printf("%d ocorrencias\n", lista->palavras[i].n_ocorrencias);
 	}
 
 	printf("\n");
@@ -62,17 +62,28 @@ int busca(ListaSequencial * lista, char *e){
 	return -1;
 }
 
-Boolean insere(ListaSequencial * lista, char * e){
+Boolean insere(ListaSequencial * lista, char * e, int linha){
 
 	int i;
 
-	if(lista->livre < lista->capacidade) {
+	int indice_encontrado = busca(lista, e);
+
+	Boolean ja_inserido = indice_encontrado > 0;
+
+	if (ja_inserido) {
+		lista->palavras[indice_encontrado].n_ocorrencias++;
+		return TRUE;
+	}
+	
+
+	else if(lista->livre < lista->capacidade) {
 
 		for(i = lista->livre; i > 0 && strcmp(lista->palavras[i - 1].a, e)>0 ; i--){
 			lista->palavras[i] = lista->palavras[i - 1];
 		}
 
 		lista->palavras[i].a = e;
+		lista->palavras[i].n_ocorrencias = 1;
 		lista->livre++;
 
 		return TRUE;

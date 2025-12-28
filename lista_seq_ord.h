@@ -6,7 +6,7 @@ typedef int Boolean;
 
 typedef struct {
 	char *a;
-	int *n_ocorrencias;
+	int n_ocorrencias;
 	int *linhas_ocoreencias;
 } PalavraTexto;
 
@@ -24,5 +24,5 @@ void destroi_lista(ListaSequencial * lista);
 int tamanho(ListaSequencial * lista);
 void imprime(ListaSequencial * lista);
 int busca(ListaSequencial * lista, char * e);
-Boolean insere(ListaSequencial * lista, char * e);
-Boolean remove_elemento(ListaSequencial * lista, char * e);
+Boolean insere(ListaSequencial * lista, char * e, int linha);
+Boolean remove_elemento(ListaSequencial * lista, char * e); //creio que não vou usar isso, provavelmente vou tirar

@@ -68,7 +68,7 @@ Boolean insere(ListaSequencial * lista, char * e, int linha){
 
 	int indice_encontrado = busca(lista, e);
 
-	Boolean ja_inserido = indice_encontrado > 0;
+	Boolean ja_inserido = indice_encontrado >= 0;
 
 	if (ja_inserido) {
 		lista->palavras[indice_encontrado].n_ocorrencias++;

@@ -18,8 +18,8 @@ char *strsep(char **stringp, const char *delim) {
 
 int main(int argc, char ** argv){
 
-    ListaSequencial * lista_palavras = cria_lista(TAMANHO);
-    ListaSequencial * lista_linhas = cria_lista(TAMANHO);
+    ListaSequencialStr * lista_palavras = cria_lista(TAMANHO);
+    ListaSequencialStr * lista_linhas = cria_lista(TAMANHO);
 
 	FILE * in;
 	char * linha;
@@ -50,10 +50,12 @@ int main(int argc, char ** argv){
 			// não queremos que 'linha' deixe de apontar para o inicio do array).
 
 			copia_ponteiro_linha = linha;
-            char * copia_conteudo_linha = (char *) malloc((TAMANHO + 1) * sizeof(char));
+            if(*copia_ponteiro_linha != '\0'){
+                    char * copia_conteudo_linha = (char *) malloc((TAMANHO + 1) * sizeof(char));
                     
                     strcpy(copia_conteudo_linha, linha);
-                    insere(lista_linhas, copia_conteudo_linha, contador_linha);
+                    insere(lista_linhas, copia_conteudo_linha, contador_linha);   
+                }
 
                 for(int i = 0; copia_ponteiro_linha[i]; i++){
                     copia_ponteiro_linha[i] = tolower(copia_ponteiro_linha[i]);

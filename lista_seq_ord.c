@@ -4,10 +4,10 @@
 
 #include "lista_seq_ord.h"
 
-ListaSequencial * cria_lista(int capacidade){
+/*----------------------------LISTA DE STRINGS---------------------------------*/
+ListaSequencialStr * cria_lista(int capacidade){
 
-	ListaSequencial * lista =  (ListaSequencial *) malloc (sizeof(ListaSequencial));
-	//lista->a = (char **) malloc (capacidade * sizeof(char *));
+	ListaSequencialStr * lista =  (ListaSequencialStr *) malloc (sizeof(ListaSequencialStr));
 	lista->palavras = (PalavraTexto *) malloc(capacidade * sizeof(PalavraTexto*));
 	lista->capacidade = capacidade;
 	lista->livre = 0;
@@ -15,18 +15,18 @@ ListaSequencial * cria_lista(int capacidade){
 	return lista;
 }
 
-void destroi_lista(ListaSequencial * lista){
+void destroi_lista(ListaSequencialStr * lista){
 
 	free(lista->palavras);
 	free(lista);
 }
 
-int tamanho(ListaSequencial * lista){
+int tamanho(ListaSequencialStr * lista){
 
 	return lista->livre;
 }
 
-void imprime(ListaSequencial * lista){
+void imprime(ListaSequencialStr * lista){
 
 	int i;
 
@@ -34,15 +34,16 @@ void imprime(ListaSequencial * lista){
 
 	for(i = 0; i < lista->livre; i++){
 
-		printf("[%d]: %s ", i, lista->palavras[i].a);
-		//printf("[%d]: %s\n", i, lista->palavras[i].linhas_ocoreencias);
-		printf("%d ocorrencias\n", lista->palavras[i].n_ocorrencias);
+		printf("[%d]: %s\n", i, lista->palavras[i].a);
+		printf("%d ocorrencias, nas linhas:\n", lista->palavras[i].n_ocorrencias);
+		imprimeInt(lista->palavras[i].linhas);
+
 	}
 
 	printf("\n");
 }
 
-int busca(ListaSequencial * lista, char *e){
+int busca(ListaSequencialStr * lista, char *e){
 
 	// busca binária! ;)
 
@@ -62,7 +63,7 @@ int busca(ListaSequencial * lista, char *e){
 	return -1;
 }
 
-Boolean insere(ListaSequencial * lista, char * e, int linha){
+Boolean insere(ListaSequencialStr * lista, char * e, int linha){
 
 	int i;
 
@@ -72,6 +73,7 @@ Boolean insere(ListaSequencial * lista, char * e, int linha){
 
 	if (ja_inserido) {
 		lista->palavras[indice_encontrado].n_ocorrencias++;
+		insereInt(lista->palavras[indice_encontrado].linhas, linha);
 		return TRUE;
 	}
 	
@@ -84,6 +86,8 @@ Boolean insere(ListaSequencial * lista, char * e, int linha){
 
 		lista->palavras[i].a = e;
 		lista->palavras[i].n_ocorrencias = 1;
+		lista->palavras[i].linhas = cria_listaInt(lista->capacidade);
+		insereInt(lista->palavras[i].linhas, linha);
 		lista->livre++;
 
 		return TRUE;
@@ -92,7 +96,7 @@ Boolean insere(ListaSequencial * lista, char * e, int linha){
 	return FALSE;
 }
 
-Boolean remove_elemento(ListaSequencial * lista, char * e){
+Boolean remove_elemento(ListaSequencialStr * lista, char * e){
 
 	int i;
 	int indice = busca(lista, e);
@@ -104,6 +108,105 @@ Boolean remove_elemento(ListaSequencial * lista, char * e){
 		for(i = indice; i < lista->livre; i++){
 
 			lista->palavras[i].a = lista->palavras[i + 1].a;
+		}
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+
+/*-----------------------------LISTA DE INTEIROS------------------------------*/
+ListaSequencialInt * cria_listaInt(int capacidade){
+
+	ListaSequencialInt * lista =  (ListaSequencialInt *) malloc (sizeof(ListaSequencialInt));
+	lista->a = (Elemento *) malloc (capacidade * sizeof(Elemento));
+	lista->capacidade = capacidade;
+	lista->livre = 0;
+
+	return lista;
+}
+
+void destroi_listaInt(ListaSequencialInt * lista){
+
+	free(lista->a);
+	free(lista);
+}
+
+int tamanhoInt(ListaSequencialInt * lista){
+
+	return lista->livre;
+}
+
+void imprimeInt(ListaSequencialInt * lista){
+
+	int i;
+
+	for(i = 0; i < lista->livre; i++){
+
+		printf(" %d", lista->a[i]);
+	}
+
+	printf("\n");
+}
+
+int buscaInt(ListaSequencialInt * lista, Elemento e){
+
+	// busca binária! ;)
+
+	int ini = 0;
+	int fim = lista->livre - 1;
+	int meio;
+
+	while(ini <= fim){
+
+		meio = (ini + fim) / 2;
+
+		if(e == lista->a[meio] ) return meio;
+		if(e < lista->a[meio]) fim = meio - 1;
+		if(e > lista->a[meio]) ini = meio + 1;
+	}
+		
+	return -1;
+}
+
+Boolean insereInt(ListaSequencialInt * lista, Elemento e){
+
+	int i;
+
+	int indice_encontrado = buscaInt(lista, e);
+
+	Boolean ja_inserido = indice_encontrado >= 0; 
+
+	if(!ja_inserido && lista->livre < lista->capacidade) {
+
+		for(i = lista->livre; i > 0 && lista->a[i - 1] > e ; i--){
+
+			lista->a[i] = lista->a[i - 1];
+		}
+
+		lista->a[i] = e;
+		lista->livre++;
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+Boolean remove_elementoInt(ListaSequencialInt * lista, Elemento e){
+
+	int i;
+	int indice = buscaInt(lista, e);
+
+	if(indice >= 0) {
+
+		lista->livre--;
+
+		for(i = indice; i < lista->livre; i++){
+
+			lista->a[i] = lista->a[i + 1];
 		}
 
 		return TRUE;
